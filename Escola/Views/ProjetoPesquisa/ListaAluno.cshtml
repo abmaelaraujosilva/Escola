@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Coppex.Models.Membro>
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+            <th>Ações</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    <span class="btn btn-default edit-aluno" data-id="@item.IdMembro"><i class="glyphicon glyphicon-edit"></i></span>
+                    <span class="btn btn-default delete-aluno" data-id="@item.IdMembro"><i class="glyphicon glyphicon-trash"></i></span>
+                </td>
+            </tr>
+
+        }
+
+    </table>
+}
+else
+{
+    <strong>Nenhum aluno encontrado.</strong>
+}
+
+<script>
+    $('.edit-aluno').click(function () {
+        $.ajax({
+            type: "GET",
+            url: "/ProjetoPesquisa/EditMembro/" + $(this).attr("data-id"),
+            success: function (data) {
+                data = JSON.parse(data);
+                $('#modalAluno').modal('show');
+                $('select option').each(function () {
+                    if ($(this).val() == data.Tipo) {
+                        $(this).attr("selected", "true");
+                    } else {
+                        $(this).removeAttr("selected");
+                    }
+                });
+                $('#Aid').val(data.IdMembro);
+                $('#Anome').val(data.Nome);
+                $('#Acpf').val(data.CPF);
+                $('#Acurso').val(data.Curso);
+                $('#Afuncao').val(data.Funcao);
+                $('#Atel').val(data.Telefone);
+                $('#Amail').val(data.Email);
+                $('#Aend').val(data.EnderecoNoLattes);
+                $('#Atit').val(data.Titulacao);
+                $('#Ainst').val(data.Instituicao);
+            }
+        })
+    });
+    $('.delete-aluno').click(function () {
+        $.ajax({
+            type: "GET",
+            url: "/ProjetoPesquisa/DeleteMembro/" + $(this).attr("data-id"),
+            success: function () {
+                $('#listaluno').load("/ProjetoPesquisa/ListaAluno");
+            }
+        })
+    });
+</script>

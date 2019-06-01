@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class=" row-fluid col-md-offset-2  col-md-8" style="margin-top: 1%; ">
+    <div class=" btn btn-default">
+        @Ajax.ActionLink("Informações", "Informacoes", new AjaxOptions
+   {
+       UpdateTargetId = "abaAtual",
+       InsertionMode = InsertionMode.Replace,
+       HttpMethod = "GET"
+   })
+    </div>
+    <div class=" btn btn-default">
+        @Ajax.ActionLink("Membros", "Membros", new AjaxOptions
+       {
+           UpdateTargetId = "abaAtual",
+           InsertionMode = InsertionMode.Replace,
+           HttpMethod = "GET"
+       })
+    </div>
+</div>
+
+
+
+<div class="box-body">
+    <div id="abaAtual"></div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#abaAtual").load("/ProjetoPesquisa/Informacoes");
+        })
+    </script>
+}
+

@@ -1,0 +1,28 @@
+﻿@model Coppex.Models.Membro
+
+<div class="container">
+    <div>
+        <button type="button" id="aluno" class="btn btn-primary">Adicionar Aluno</button>
+        <button type="button" id="coordenador" class="btn btn-primary">Adicionar Coordenador</button>
+        <button type="button" id="pesquisador" class="btn btn-primary">Adicionar Pesquisador</button>
+        @RenderPage("~/Views/ProjetoPesquisa/AlunoPartial.cshtml")
+        @RenderPage("~/Views/ProjetoPesquisa/CoordenadorPartial.cshtml")
+        @RenderPage("~/Views/ProjetoPesquisa/PesquisadorPartial.cshtml")
+    </div>
+    <div class="col-md-6" id="listaluno">
+    </div>
+    <div class="col-md-6">
+        <div id="listcoordenador">
+        </div>
+        <div id="listpesquisador">
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/validacaoMembros")
+
+
+
+
+
+
+

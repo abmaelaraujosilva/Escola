@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Coppex.Models.Membro>
+@if (Model.Count() > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Funcao)
+            </th>
+            <th>Ações</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Funcao)
+                </td>
+                <td>
+                    <span class="btn btn-default edit-coordenador" data-id="@item.IdMembro"><i class="glyphicon glyphicon-edit"></i></span>
+                    <span class="btn btn-default delete-coordenador" data-id="@item.IdMembro"><i class="glyphicon glyphicon-trash"></i></span>
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <strong id="nCoord">Nenhum coordenador encontrado.</strong>
+}
+
+<script>
+    $('.edit-coordenador').click(function () {
+        $.ajax({
+            type: "GET",
+            url: "/ProjetoPesquisa/EditMembro/" + $(this).attr("data-id"),
+            success: function (data) {
+                data = JSON.parse(data);
+                $('#modalCoord').modal('show');
+                $('#Cid').val(data.IdMembro);
+                $('#Cnome').val(data.Nome);
+                $('#Ccpf').val(data.CPF);
+                $('#Ccurso').val(data.Curso);
+                $('#Cfuncao').val(data.Funcao);
+                $('#Ctel').val(data.Telefone);
+                $('#Cmail').val(data.Email);
+                $('#Cend').val(data.EnderecoNoLattes);
+                $('#Ctit').val(data.Titulacao);
+                $('#Cinst').val(data.Instituicao);
+                $('#modalCoord :submit').removeAttr("disabled");
+                $('#msg-coord').css({ "opacity": "0" });
+            }
+        })
+    });
+    $('.delete-coordenador').click(function () {
+        $.ajax({
+            type: "GET",
+            url: "/ProjetoPesquisa/DeleteMembro/" + $(this).attr("data-id"),
+            success: function () {
+                $('#listcoordenador').load("/ProjetoPesquisa/ListaCoordenador");
+            }
+        })
+    });
+</script>
